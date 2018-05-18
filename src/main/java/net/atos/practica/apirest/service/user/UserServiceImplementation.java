@@ -22,8 +22,18 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserResponse createUser(UserRequest userRequest) {
 
-        UserEntity newUserEntity = userRepository.save(Mapper.userRequestToUserEntity(userRequest));
+        UserEntity newUserEntity = userRepository.save(
+                Mapper.userRequestToUserEntity(userRequest));
 
         return Mapper.userEntityToUserResponse(newUserEntity);
+    }
+
+    @Override
+    public UserResponse findUserByEmail(UserRequest userRequest) {
+
+        UserEntity showedUser = userRepository.findByEmail(
+                Mapper.userRequestToUserEntity(userRequest).getEmail());
+
+        return Mapper.userEntityToUserResponse(showedUser);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -18,12 +19,20 @@ public class UserController {
         super();
     }
 
-    @RequestMapping("user")
+    @PostMapping("/createUser")
     public UserResponse createUser(
             @Valid
             @RequestBody
             final UserRequest userRequest
     ) {
         return userService.createUser(userRequest);
+    }
+
+    @GetMapping("/show")
+    public UserResponse showUser(
+            @RequestBody
+            final UserRequest userRequest
+    ) {
+        return userService.findUserByEmail(userRequest);
     }
 }

@@ -6,4 +6,6 @@ import net.atos.practica.apirest.model.response.UserResponse;
 public interface UserService {
 
     public UserResponse createUser(UserRequest userRequest);
+
+    public UserResponse findUserByEmail(UserRequest userRequest);
 }
