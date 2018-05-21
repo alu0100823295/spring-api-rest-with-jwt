@@ -1,5 +1,8 @@
 package net.atos.practica.apirest.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import net.atos.practica.apirest.utils.View;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,13 +19,16 @@ public class UserEntity {
 
     @Id
     @Column(name = "EMAIL")
+    @JsonView(View.Public.class)
     private String email;
 
     @Column(name = "NAME")
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 50)
+    @JsonView(View.Public.class)
     private String name;
 
     @Column(name = "ADDRESS")
+    @JsonView(View.Admin.class)
     private String address;
 
     public String getEmail() {

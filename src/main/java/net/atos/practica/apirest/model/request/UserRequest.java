@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 public class UserRequest {
 
     private String email;
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 50)
     private String name;
     private String address;
 
