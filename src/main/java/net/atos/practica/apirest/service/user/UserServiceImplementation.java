@@ -21,10 +21,17 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserEntity createUser(UserRequest userRequest) {
+    public UserEntity createUser(UserRequest userRequest) throws Exception {
 
-        return userRepository.save(
-                Mapper.userRequestToUserEntity(userRequest));
+        if ( userRepository.findByEmail(
+                Mapper.userRequestToUserEntity(userRequest).getEmail() ) != null ) {
+            throw new Exception("User already created");
+        }
+        else {
+            return userRepository.save(
+                    Mapper.userRequestToUserEntity(userRequest)
+            );
+        }
     }
 
     @Override
@@ -47,5 +54,20 @@ public class UserServiceImplementation implements UserService {
         return userRepository.save(
                 Mapper.userRequestToUserEntity(userRequest)
         );
+    }
+
+    @Override
+    public void deleteUser(List<UserRequest> userRequests) throws Exception {
+
+        for ( UserRequest userRequest: userRequests ) {
+            if ( !( userRepository.findByEmail(userRequest.getEmail()) == null ) ) {
+                userRepository.delete(
+                        Mapper.userRequestToUserEntity(userRequest)
+                );
+            }
+            else {
+                throw new Exception("User Not Found");
+            }
+        }
     }
 }

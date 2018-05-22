@@ -31,6 +31,10 @@ public class UserEntity {
     @JsonView(View.Admin.class)
     private String address;
 
+    @Column(name = "GENDER")
+    @JsonView(View.Public.class)
+    private String gender;
+
     public String getEmail() {
         return email;
     }
@@ -53,5 +57,13 @@ public class UserEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
