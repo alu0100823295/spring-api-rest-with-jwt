@@ -1,5 +1,6 @@
 package net.atos.practica.apirest.controller;
 
+
 import com.fasterxml.jackson.annotation.JsonView;
 import net.atos.practica.apirest.model.entity.UserEntity;
 import net.atos.practica.apirest.model.request.UserRequest;
@@ -13,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/user")
 public class UserController {
 

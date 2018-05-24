@@ -6,12 +6,16 @@ import net.atos.practica.apirest.repository.UserRepository;
 import net.atos.practica.apirest.service.UserService;
 import net.atos.practica.apirest.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserServiceImplementation implements UserService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -23,11 +27,23 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserEntity createUser(UserRequest userRequest) throws Exception {
 
+        System.out.println("Dentro del servicio --------------------------");
+
+
+        // Encriptando la contraseña
+        userRequest.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
+
+        System.out.println("Contraseña encriptada --------------------------");
+        System.out.println("Contraseña: " + userRequest.getPassword());
+
         if ( userRepository.findByEmail(
                 Mapper.userRequestToUserEntity(userRequest).getEmail() ) != null ) {
             throw new Exception("User already created");
         }
         else {
+
+            System.out.println("Antes de guardar el usuario --------------------------");
+
             return userRepository.save(
                     Mapper.userRequestToUserEntity(userRequest)
             );

@@ -10,6 +10,8 @@ public class Mapper {
         userEntity.setName(userRequest.getName());
         userEntity.setEmail(userRequest.getEmail());
         userEntity.setAddress(userRequest.getAddress());
+        userEntity.setPassword(userRequest.getPassword());
+        userEntity.setUsername(userRequest.getUsername());
 
         return userEntity;
     }

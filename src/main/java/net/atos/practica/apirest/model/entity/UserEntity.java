@@ -17,10 +17,20 @@ public class UserEntity {
         super();
     }
 
-    @Id
+    //@Id
     @Column(name = "EMAIL")
     @JsonView(View.Public.class)
     private String email;
+
+    @Id
+    @Column(name = "USERNAME")
+    @JsonView(View.Admin.class)
+    private String username;
+
+
+    @Column(name = "PASSWORD")
+    @JsonView(View.Admin.class)
+    private String password;
 
     @Column(name = "NAME")
     @Size(min = 2, max = 50)
@@ -65,5 +75,21 @@ public class UserEntity {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
