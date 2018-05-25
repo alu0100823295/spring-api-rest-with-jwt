@@ -54,12 +54,26 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
+        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
+
         String token = Jwts.builder()
                 .setSubject(((User)auth.getPrincipal()).getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
                 .compact();
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+
+        // Mandar fecha de expiración por el header y autorizar la lectura del mismo
+        res.addHeader(EXPIRE_HEADER, expirationDate.toString());
+        res.addHeader("access-control-expose-headers", EXPIRE_HEADER);
+
+        // Mandar token por el header y autorizar la lectura del mismo
+        res.addHeader(AUTHORIZATION_HEADER, TOKEN_PREFIX + token);
+        res.addHeader("access-control-expose-headers", AUTHORIZATION_HEADER);
+
+        // Mandar token por el body
+        String tokenString = TOKEN_PREFIX + token;
+        res.getWriter().write("{\n\"token\": \"" + tokenString + "\"\n}");
+
 
     }
 }
